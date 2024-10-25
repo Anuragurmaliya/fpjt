@@ -142,7 +142,7 @@ data "aws_security_group" "selected" {
 
  #Creating EKS Cluster
   resource "aws_eks_cluster" "eks" {
-    name     = "project-eks"
+    name     = "projectanu"
     role_arn = aws_iam_role.master.arn
 
     vpc_config {
@@ -169,7 +169,7 @@ data "aws_security_group" "selected" {
     instance_types  = ["t2.small"]
 
     remote_access {
-      ec2_ssh_key               = "provisioner"
+      ec2_ssh_key               = "anu565"
       source_security_group_ids = [data.aws_security_group.selected.id]
     }
 
