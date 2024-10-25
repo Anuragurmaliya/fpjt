@@ -169,7 +169,11 @@ data "aws_security_group" "selected" {
     instance_types  = ["t2.small"]
 
     remote_access {
+<<<<<<< HEAD
       ec2_ssh_key               = "anu565"
+=======
+      ec2_ssh_key               = "anurag565"
+>>>>>>> 64d6192aa754cb82c192b39f6cdb3517cfbf5971
       source_security_group_ids = [data.aws_security_group.selected.id]
     }
 
