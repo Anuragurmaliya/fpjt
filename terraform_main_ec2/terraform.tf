@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "my-jenkins-anurag-terraform"
+    bucket = "mycloudcore008"
     key    = "terraform.tfstate"
     region = "us-east-1"
   }
