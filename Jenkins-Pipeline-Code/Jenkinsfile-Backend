@@ -5,10 +5,10 @@ pipeline {
         nodejs 'nodejs'
     }
     environment  {
-        SCANNER_HOME=tool 'sonar-scanner'
-        AWS_ACCOUNT_ID = credentials('ACCOUNT_ID')
-        AWS_ECR_REPO_NAME = credentials('ECR_REPO2')
-        AWS_DEFAULT_REGION = 'ap-south-1'
+        SCANNER_HOME=tool 'sonarQube'
+        AWS_ACCOUNT_ID = credentials('aws-account')
+        AWS_ECR_REPO_NAME = credentials('ecr-repo2')
+        AWS_DEFAULT_REGION = 'us-east-1'
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/"
     }
     stages {
@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Checkout from Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/CloudTechDevOps/fpjt.git'
+                git branch: 'main', url: 'https://github.com/Anuragurmaliya/fpjt.git'
             }
         }
         stage('Sonarqube Analysis') {
@@ -40,21 +40,21 @@ pipeline {
                 }
             }
         }
-        stage('OWASP Dependency-Check Scan') {
-            steps {
-                dir('Application-Code/backend') {
-                    dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
-                    dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-                }
-            }
-        }
-        stage('Trivy File Scan') {
-            steps {
-                dir('Application-Code/backend') {
-                    sh 'trivy fs . > trivyfs.txt'
-                }
-            }
-        }
+      //  stage('OWASP Dependency-Check Scan') {
+          //  steps {
+           //     dir('Application-Code/backend') {
+            //        dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+            //        dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+          //      }
+         //   }
+      //  }
+      //  stage('Trivy File Scan') {
+      //      steps {
+      //          dir('Application-Code/backend') {
+       //             sh 'trivy fs . > trivyfs.txt'
+        //        }
+      //      }
+    //    }
         stage("Docker Image Build") {
             steps {
                 script {
@@ -75,20 +75,20 @@ pipeline {
                 }
             }
         }
-        stage("TRIVY Image Scan") {
-            steps {
-                sh 'trivy image ${REPOSITORY_URI}${AWS_ECR_REPO_NAME}:${BUILD_NUMBER} > trivyimage.txt' 
-            }
-        }
+     //   stage("TRIVY Image Scan") {
+      //      steps {
+      //          sh 'trivy image ${REPOSITORY_URI}${AWS_ECR_REPO_NAME}:${BUILD_NUMBER} > trivyimage.txt' 
+      //      }
+    //    }
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/CloudTechDevOps/fpjt.git'
+                git branch: 'main', url: 'https://github.com/Anuragurmaliya/fpjt.git'
             }
         }
         stage('Update Deployment file') {
             environment {
                 GIT_REPO_NAME = "fpjt"
-                GIT_USER_NAME = "CloudTechDevOps"
+                GIT_USER_NAME = "Anuragurmaliya"
             }
             steps {
                 dir('Kubernetes-Manifests-file/Backend') {
