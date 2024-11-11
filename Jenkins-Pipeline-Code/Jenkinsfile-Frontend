@@ -4,7 +4,7 @@ pipeline {
         nodejs 'nodejs'
     }
     environment  {
-        SCANNER_HOME=tool 'sonarQube'
+        SCANNER_HOME=tool 'sonar-token'
         AWS_ACCOUNT_ID = credentials('aws-account')
         AWS_ECR_REPO_NAME = credentials('ecr-repo1')
         AWS_DEFAULT_REGION = 'us-east-1'
