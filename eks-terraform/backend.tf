@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "mycloudcore008"
+    bucket = "mongodb-practice-bucket"
     key    = "eks/terraform.tfstate"
     region = "us-east-1"
   }
